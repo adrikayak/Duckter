@@ -32,7 +32,7 @@ class App:
         #cv2.namedWindow("Image", cv2.WINDOW_AUTOSIZE)
         # cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Image", cv2.WND_PROP_FULLSCREEN)
-        cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
+        cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN, cv.CV_WINDOW_FULLSCREEN)
         # cv2.resizeWindow('Image', 320, 240)
             # cv2.createTrackbar("Detection treshold: ", "Image", self.threshold, 100, self.onChange)
 
@@ -76,7 +76,7 @@ class App:
         # print(center_y)
         cv2.circle(cimg,(center_x,center_y),10,(0,255,0),2)
 
-        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 30)
+        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
        
         if  circles is not None:
             for i in circles[0,:]:
