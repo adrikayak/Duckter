@@ -30,8 +30,10 @@ class App:
 
         self.trigger_time = None
         #cv2.namedWindow("Image", cv2.WINDOW_AUTOSIZE)
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-        cv2.resizeWindow('Image', 640, 480) 
+        # cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        cv2.namedWindow("Image", cv2.WND_PROP_FULLSCREEN)
+        cv2.setWindowProperty("Image", cv2.WND_PROP_FULLSCREEN, cv2.cv.CV_WINDOW_FULLSCREEN)
+        # cv2.resizeWindow('Image', 320, 240)
             # cv2.createTrackbar("Detection treshold: ", "Image", self.threshold, 100, self.onChange)
 
     def run(self):
