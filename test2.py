@@ -50,7 +50,7 @@ class App:
                 # print time.time()
                 print('Button Pressed')
                 camera.capture(rawCapture, format="bgr")
-                self.frame = rawCapture.array[180:900, 320:1600]
+                self.frame = rawCapture.array[180:900, 480:1440]
                 # currentframe = rawCapture.array[180:900, 320:1600]
                 # cv2.imshow("Image", self.frame)
                 self.processImage(self.frame)
@@ -72,10 +72,11 @@ class App:
         cimg = frame.copy() # numpy function
         height, width, depth = cimg.shape
         center_x = int(round(width/2))
-        center_y = int(round(height/2))
+        center_y = int(round(height/2))-20
+	r = 40
         # print(center_x)
         # print(center_y)
-        cv2.circle(cimg,(center_x,center_y),10,(0,255,0),2)
+        cv2.circle(cimg,(center_x,center_y),r,(0,255,0),2)
 
         circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 75)
        
@@ -86,7 +87,7 @@ class App:
                 cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),2)
                 if (i[0] - center_x)*(i[0] - center_x) + \
                     (i[1] - center_y)*(i[1] - center_y) < \
-                    i[2]*i[2]:
+                    (0.8*r+i[2])*(0.8*r+i[2]):
                     cv2.line(cimg,(width-10,10),(width-32, 50)
                         ,(0,255,0),5)
                     cv2.line(cimg,(width-50, 30),(width-32, 50)
