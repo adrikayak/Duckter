@@ -79,8 +79,8 @@ class App:
 
         circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
        
+        hit = 0
         if  circles is not None:
-            hit = 0
             for i in circles[0,:]:
                 # draw the outer circle
                 cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),2)
@@ -93,15 +93,9 @@ class App:
                         ,(0,255,0),5)
                     hit += 1
                     print('You have a hit')
-                if hit < 1:
-                    cv2.line(cimg,(width-10,10),(width-50, 50)
-                        ,(0,0,255),5)
-                    cv2.line(cimg,(width-50, 10),(width-10, 50)
-                        ,(0,0,255),5)
-                    print('You missed')
                 # draw the center of the circle
                 cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),3)
-        else:
+        if hit < 1:
             cv2.line(cimg,(width-10,10),(width-50, 50)
                 ,(0,0,255),5)
             cv2.line(cimg,(width-50, 10),(width-10, 50)
