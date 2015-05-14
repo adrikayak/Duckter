@@ -50,10 +50,10 @@ class App:
                 # print time.time()
                 print('Button Pressed')
                 camera.capture(rawCapture, format="bgr")
-                # self.frame = rawCapture.array
-                currentframe = rawCapture.array[180:900, 320:1600]
+                self.frame = rawCapture.array[180:900, 320:1600]
+                # currentframe = rawCapture.array[180:900, 320:1600]
                 # cv2.imshow("Image", self.frame)
-                self.processImage(currentframe)
+                self.processImage(self.frame)
                 rawCapture.truncate(0)
                 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 #    # grab the raw NumPy array representing the image, then initialize the timestamp
