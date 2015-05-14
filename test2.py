@@ -5,6 +5,7 @@ import cv2.cv as cv
 import video
 import RPi.GPIO as GPIO
 import time
+from datetime import datetime
 # import the necessary packages
 from picamera.array import PiRGBArray
 from picamera import PiCamera
@@ -46,13 +47,13 @@ class App:
             if input_state == False:
                 time_interval = dist / speed
                 time.sleep(time_interval)
-                print time.time()
+                # print time.time()
                 print('Button Pressed')
                 camera.capture(rawCapture, format="bgr")
-                self.frame = rawCapture.array
-                currentframe = rawCapture.array
-                cv2.imshow("Image", self.frame)
-                self.processImage(self.frame)
+                # self.frame = rawCapture.array
+                currentframe = rawCapture.array[180:900, 320:1600]
+                # cv2.imshow("Image", self.frame)
+                self.processImage(currentframe)
                 rawCapture.truncate(0)
                 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 #    # grab the raw NumPy array representing the image, then initialize the timestamp
@@ -85,14 +86,27 @@ class App:
                 if (i[0] - center_x)*(i[0] - center_x) + \
                     (i[1] - center_y)*(i[1] - center_y) < \
                     i[2]*i[2]:
+                    cv2.line(cimg,(width-10,10),(width-32, 50)
+                        ,(0,255,0),5)
+                    cv2.line(cimg,(width-50, 30),(width-32, 50)
+                        ,(0,255,0),5)
                     print('You have a hit')
                 else:
+                    cv2.line(cimg,(width-10,10),(width-50, 50)
+                        ,(0,0,255),5)
+                    cv2.line(cimg,(width-50, 10),(width-10, 50)
+                        ,(0,0,255),5)
                     print('You missed')
                 # draw the center of the circle
                 cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),3)
         else:
+            cv2.line(cimg,(width-10,10),(width-50, 50)
+                ,(0,0,255),5)
+            cv2.line(cimg,(width-50, 10),(width-10, 50)
+                ,(0,0,255),5)
             print('You missed')
         cv2.imshow("Image", cimg)
+        cv2.imwrite(datetime.now().isoformat()+'.jpg', cimg)
 
 if __name__ == '__main__':
     print __doc__

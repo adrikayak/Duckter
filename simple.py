@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import cv2.cv as cv
 import video
-
+from datetime import datetime
 class App:
 
 
@@ -29,12 +29,14 @@ class App:
         print "started"
         while True:
             ret, frame = self.cap.read()
+            frame = frame[180:900, 320:1600]
             currentframe = frame.copy()
             if self.show:
                 cv2.imshow("Image", currentframe)
 
             if self.trigger_time:
                 if self.cap.get(0)==self.trigger_time +time_interval:
+                    print frame.shape
                     self.processImage(currentframe)
 
             c = cv2.waitKey(1) % 0x100
@@ -60,18 +62,33 @@ class App:
         if  circles is not None:
             for i in circles[0,:]:
                 # draw the outer circle
-                cv2.circle(cimg,(i[0],i[1]),i[2],(0,255,0),2)
+                cv2.circle(cimg,(i[0],i[1]),i[2],(255,0,0),2)
                 if (i[0] - center_x)*(i[0] - center_x) + \
                     (i[1] - center_y)*(i[1] - center_y) < \
                     i[2]*i[2]:
+                    # cv2.line( frame.shape[1]-5, frame.shape[0],
+                        # frame.shape[1]+5, frame.shape[1] );
+                    cv2.line(cimg,(width-10,10),(width-32, 50)
+                        ,(0,255,0),5)
+                    cv2.line(cimg,(width-50, 30),(width-32, 50)
+                        ,(0,255,0),5)
                     print('You have a hit')
                 else:
+                    cv2.line(cimg,(width-10,10),(width-50, 50)
+                        ,(0,0,255),5)
+                    cv2.line(cimg,(width-50, 10),(width-10, 50)
+                        ,(0,0,255),5)
                     print('You missed')
                 # draw the center of the circle
                 cv2.circle(cimg,(i[0],i[1]),2,(0,0,255),3)
         else:
+            cv2.line(cimg,(width-10,10),(width-50, 50)
+                ,(0,0,255),5)
+            cv2.line(cimg,(width-50, 10),(width-10, 50)
+                ,(0,0,255),5)
             print('You missed')
         cv2.imshow("detected circles", cimg)
+        cv2.imwrite(datetime.now().isoformat()+'.jpg', cimg) 
 
 if __name__ == '__main__':
     print __doc__
