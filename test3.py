@@ -46,11 +46,15 @@ class App:
             input_state = GPIO.input(21)
             #camera.start_preview()
             if input_state == False:
+                timestamp1 = time.time()
+                print timestamp1
                 camera.capture(dist_capture, format="bgr")
                 frame_dist = dist_capture.array[180:900, 320:1600]
                 dist = self.distance_to_camera(frame_dist)
                 dist_capture.truncate(0)
-                time_interval = dist / speed
+                timestamp2 = time.time()
+                print timestamp2
+                time_interval = dist / speed - (timestamp2-timestamp1)
                 time.sleep(time_interval)
                 # print time.time()
                 print('Button Pressed')
@@ -110,18 +114,19 @@ class App:
         cv2.imwrite(datetime.now().isoformat()+'.jpg', cimg)
 
     def distance_to_camera(self, frame):
-        KNOWN_DISTANCE = 30.0#meters
+        # KNOWN_DISTANCE = 30.0#meters
         KNOWN_RADIUS = 0.3#meters
+        focalLength = 0.00036
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray_frame = cv2.medianBlur(gray_frame, 5)
         circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 75)
         if circles is not None:
             circles = np.round(circles[0, :]).astype("int")
-        focalLength = (circles[0,2]* KNOWN_DISTANCE) / KNOWN_RADIUS
+            # compute and return the distance from the maker to the camera
+            return (KNOWN_RADIUS * focalLength) / circles[0,2]
+        return 30
         
-        # compute and return the distance from the maker to the camera
-        return (KNOWN_RADIUS * focalLength) / circles[0,2]
 
 if __name__ == '__main__':
     print __doc__
