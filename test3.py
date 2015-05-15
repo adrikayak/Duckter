@@ -120,7 +120,7 @@ class App:
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray_frame = cv2.medianBlur(gray_frame, 5)
-        circles = cv2.HoughCircles(gray, cv.CV_HOUGH_GRADIENT, 1, 75)
+        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 75)
         if circles is not None:
             circles = np.round(circles[0, :]).astype("int")
             # compute and return the distance from the maker to the camera
