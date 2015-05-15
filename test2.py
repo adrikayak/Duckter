@@ -77,7 +77,7 @@ class App:
         # print(center_y)
         cv2.circle(cimg,(center_x,center_y),10,(0,255,0),2)
 
-        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
+        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1.2, 75)
        
         hit = 0
         if  circles is not None:

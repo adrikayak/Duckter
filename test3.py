@@ -82,7 +82,7 @@ class App:
         # print(center_y)
         cv2.circle(cimg,(center_x,center_y),10,(0,255,0),2)
 
-        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
+        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 75)
        
         hit = 0
         if  circles is not None:
@@ -111,10 +111,13 @@ class App:
 
     def distance_to_camera(self, frame):
         KNOWN_DISTANCE = 30.0#meters
-        KNOWN_RADIUS = 0.15#meters
+        KNOWN_RADIUS = 0.3#meters
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
+        gray_frame = cv2.medianBlur(gray_frame, 5)
+        circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 75)
+        if circles is not None:
+            circles = np.round(circles[0, :]).astype("int")
         focalLength = (circles[0,2]* KNOWN_DISTANCE) / KNOWN_RADIUS
         
         # compute and return the distance from the maker to the camera
