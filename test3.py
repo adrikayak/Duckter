@@ -111,7 +111,7 @@ class App:
 
     def distance_to_camera(self, frame):
         KNOWN_DISTANCE = 30.0#meters
-        KNOWN_RADIUS = #meters
+        KNOWN_RADIUS = 0.15#meters
 
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         circles = cv2.HoughCircles(gray_frame, cv.CV_HOUGH_GRADIENT, 1, 10, np.array([]), 100, 30, 1, 150)
