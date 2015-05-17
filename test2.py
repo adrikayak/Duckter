@@ -72,7 +72,7 @@ class App:
         cimg = frame.copy() # numpy function
         height, width, depth = cimg.shape
         center_x = int(round(width/2))
-        center_y = int(round(height/2))-20
+        center_y = int(round(height/2))-19
 	r = 40
         # print(center_x)
         # print(center_y)
