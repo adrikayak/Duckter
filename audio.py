@@ -31,9 +31,8 @@ class App:
         self.frame_rate = camera.framerate
         self.isRecording = False        
         self.trigger_time = None
-	self.gunshot = pygame.mixer.Sound("gunshot_3.wav")
+        self.gunshot = pygame.mixer.Sound("gunshot_3.wav")
 
-        
         #cv2.namedWindow("Image", cv2.WINDOW_AUTOSIZE)
         # cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         cv2.namedWindow("Image", cv2.WND_PROP_FULLSCREEN)
@@ -42,17 +41,17 @@ class App:
             # cv2.createTrackbar("Detection treshold: ", "Image", self.threshold, 100, self.onChange)
 
     def run(self):
-        dist = 30 # meters
-        speed = 100 # meters/second
-        
+        # dist = 30 # meters
+        # speed = 100 # meters/second
+
         print "started"
         while True:
             input_state = GPIO.input(21)
             #camera.start_preview()
             if input_state == False:
-		self.gunshot.play()
-                time_interval = dist / speed
-                time.sleep(time_interval)
+                self.gunshot.play()
+                # time_interval = dist / speed
+                # time.sleep(time_interval)
                 # print time.time()
                 print('Button Pressed')
                 camera.capture(rawCapture, format="bgr")
@@ -60,7 +59,7 @@ class App:
                 # currentframe = rawCapture.array[180:900, 320:1600]
                 # cv2.imshow("Image", self.frame)
                 self.processImage(self.frame)
-		
+
                 rawCapture.truncate(0)
                 #for frame in camera.capture_continuous(rawCapture, format="bgr", use_video_port=True):
                 #    # grab the raw NumPy array representing the image, then initialize the timestamp
@@ -80,7 +79,7 @@ class App:
         height, width, depth = cimg.shape
         center_x = int(round(width/2))
         center_y = int(round(height/2))-19
-	r = 40
+        r = 40
         # print(center_x)
         # print(center_y)
         cv2.circle(cimg,(center_x,center_y),r,(0,255,0),2)
